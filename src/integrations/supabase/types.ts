@@ -14,7 +14,178 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      carbon_tokens: {
+        Row: {
+          block_number: number | null
+          contract_address: string | null
+          created_at: string
+          id: string
+          report_id: string
+          token_amount: number
+          token_metadata: Json | null
+          transaction_hash: string | null
+          user_id: string
+        }
+        Insert: {
+          block_number?: number | null
+          contract_address?: string | null
+          created_at?: string
+          id?: string
+          report_id: string
+          token_amount: number
+          token_metadata?: Json | null
+          transaction_hash?: string | null
+          user_id: string
+        }
+        Update: {
+          block_number?: number | null
+          contract_address?: string | null
+          created_at?: string
+          id?: string
+          report_id?: string
+          token_amount?: number
+          token_metadata?: Json | null
+          transaction_hash?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "carbon_tokens_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      governance_approvals: {
+        Row: {
+          approval_notes: string | null
+          approver_id: string
+          created_at: string
+          id: string
+          report_id: string
+          signature: string | null
+          status: Database["public"]["Enums"]["governance_status"]
+          updated_at: string
+        }
+        Insert: {
+          approval_notes?: string | null
+          approver_id: string
+          created_at?: string
+          id?: string
+          report_id: string
+          signature?: string | null
+          status?: Database["public"]["Enums"]["governance_status"]
+          updated_at?: string
+        }
+        Update: {
+          approval_notes?: string | null
+          approver_id?: string
+          created_at?: string
+          id?: string
+          report_id?: string
+          signature?: string | null
+          status?: Database["public"]["Enums"]["governance_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_approvals_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          organization: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string
+          wallet_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          organization?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id: string
+          wallet_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          organization?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          ai_confidence_score: number | null
+          created_at: string
+          description: string | null
+          estimated_sequestration: number | null
+          file_urls: string[] | null
+          id: string
+          ipfs_hash: string | null
+          project_location: string
+          report_data: Json
+          status: Database["public"]["Enums"]["report_status"]
+          title: string
+          updated_at: string
+          user_id: string
+          validation_notes: string | null
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          created_at?: string
+          description?: string | null
+          estimated_sequestration?: number | null
+          file_urls?: string[] | null
+          id?: string
+          ipfs_hash?: string | null
+          project_location: string
+          report_data: Json
+          status?: Database["public"]["Enums"]["report_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+          validation_notes?: string | null
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          created_at?: string
+          description?: string | null
+          estimated_sequestration?: number | null
+          file_urls?: string[] | null
+          id?: string
+          ipfs_hash?: string | null
+          project_location?: string
+          report_data?: Json
+          status?: Database["public"]["Enums"]["report_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+          validation_notes?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +194,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      governance_status: "pending" | "approved" | "rejected"
+      report_status:
+        | "pending"
+        | "validating"
+        | "validated"
+        | "rejected"
+        | "minted"
+      user_role: "admin" | "validator" | "ngo" | "community"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +328,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      governance_status: ["pending", "approved", "rejected"],
+      report_status: [
+        "pending",
+        "validating",
+        "validated",
+        "rejected",
+        "minted",
+      ],
+      user_role: ["admin", "validator", "ngo", "community"],
+    },
   },
 } as const

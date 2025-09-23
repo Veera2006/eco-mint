@@ -1,1 +1,16 @@
 project_id = "acwcxkhakxfjvabdcfvk"
+
+[functions.upload-report]
+verify_jwt = true
+
+[functions.validate-report]
+verify_jwt = true
+
+[functions.mint-carbon-token]
+verify_jwt = true
+
+[functions.governance-approve]
+verify_jwt = true
+
+[functions.analytics-global]
+verify_jwt = false
