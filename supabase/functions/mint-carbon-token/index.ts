@@ -83,28 +83,44 @@ serve(async (req) => {
       token_amount: report.estimated_sequestration || 0
     };
 
-    // In production, use actual blockchain integration:
+    // Production blockchain integration (uncomment when contracts are deployed):
     /*
-    const { ethers } = await import('ethers');
+    const { ethers } = await import('https://esm.sh/ethers@6.8.0');
     
-    const provider = new ethers.JsonRpcProvider(POLYGON_RPC_URL);
-    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
+    const POLYGON_RPC_URL = Deno.env.get('POLYGON_RPC_URL');
+    const PRIVATE_KEY = Deno.env.get('PRIVATE_KEY'); 
+    const CARBON_TOKEN_ADDRESS = Deno.env.get('CARBON_TOKEN_ADDRESS');
     
-    const tx = await contract.mintCarbonToken(
-      wallet_address,
-      ethers.parseEther(report.estimated_sequestration.toString()),
-      report_id
-    );
-    
-    const receipt = await tx.wait();
-    const mockMinting = {
-      success: true,
-      transaction_hash: receipt.hash,
-      contract_address: CONTRACT_ADDRESS,
-      block_number: receipt.blockNumber,
-      token_amount: report.estimated_sequestration
-    };
+    if (POLYGON_RPC_URL && PRIVATE_KEY && CARBON_TOKEN_ADDRESS) {
+      const provider = new ethers.JsonRpcProvider(POLYGON_RPC_URL);
+      const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+      
+      // Carbon Token ABI (minimal for minting)
+      const CARBON_TOKEN_ABI = [
+        "function mintCarbonToken(address recipient, uint256 sequestrationAmount, string reportId, string projectLocation) returns (uint256)"
+      ];
+      
+      const contract = new ethers.Contract(CARBON_TOKEN_ADDRESS, CARBON_TOKEN_ABI, wallet);
+      
+      const tx = await contract.mintCarbonToken(
+        wallet_address,
+        report.estimated_sequestration,
+        report_id,
+        report.project_location || 'Blue Carbon Project'
+      );
+      
+      const receipt = await tx.wait();
+      const mockMinting = {
+        success: true,
+        transaction_hash: receipt.hash,
+        contract_address: CARBON_TOKEN_ADDRESS,
+        block_number: receipt.blockNumber,
+        token_amount: report.estimated_sequestration
+      };
+    } else {
+      // Fallback to mock if secrets not configured
+      console.log('Blockchain secrets not configured, using mock minting');
+    }
     */
 
     // Save carbon token record

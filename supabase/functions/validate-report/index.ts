@@ -69,20 +69,37 @@ serve(async (req) => {
       validation_notes: 'AI validation completed. Data quality assessment passed.'
     };
 
-    // In production, uncomment this to call actual ML service:
+    // Production ML service integration (uncomment when ML service is deployed):
     /*
-    const mlResponse = await fetch('YOUR_ML_API_ENDPOINT', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        report_data: report.report_data,
-        file_urls: report.file_urls
-      })
-    });
+    const ML_SERVICE_URL = Deno.env.get('ML_SERVICE_URL');
     
-    const mockValidation: AIValidationResponse = await mlResponse.json();
+    if (ML_SERVICE_URL) {
+      const mlResponse = await fetch(`${ML_SERVICE_URL}/validate-report`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          report_data: report.report_data,
+          file_urls: report.file_urls || []
+        })
+      });
+      
+      if (mlResponse.ok) {
+        const mlResult = await mlResponse.json();
+        const mockValidation: AIValidationResponse = {
+          status: mlResult.status === 'validated' ? 'validated' : 'rejected',
+          estimated_sequestration: mlResult.estimated_sequestration,
+          confidence_score: mlResult.confidence_score,
+          validation_notes: mlResult.validation_notes
+        };
+      } else {
+        console.error('ML service call failed:', await mlResponse.text());
+        // Fall back to mock validation
+      }
+    } else {
+      console.log('ML_SERVICE_URL not configured, using mock validation');
+    }
     */
 
     // Update report with validation results
