@@ -156,7 +156,15 @@ const WorkflowSection = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <Button variant="hero" size="lg" className="text-lg px-8 py-4">
+          <Button 
+            variant="hero" 
+            size="lg" 
+            className="text-lg px-8 py-4"
+            onClick={() => {
+              alert('MRV Report Upload - This would open the upload form');
+              // In a real app, this would navigate to the upload page or open a modal
+            }}
+          >
             Start Your First MRV Report
             <ArrowRight className="ml-2" />
           </Button>

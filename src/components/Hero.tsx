@@ -36,6 +36,9 @@ const Hero = () => {
             variant="hero" 
             size="lg"
             className="text-lg px-8 py-4 animate-pulse-glow"
+            onClick={() => {
+              document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             Launch Platform <ArrowRight className="ml-2" />
           </Button>
@@ -43,6 +46,9 @@ const Hero = () => {
             variant="outline" 
             size="lg"
             className="text-lg px-8 py-4 border-white/30 text-white hover:bg-white/10"
+            onClick={() => {
+              document.getElementById('workflow')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             View Demo
           </Button>

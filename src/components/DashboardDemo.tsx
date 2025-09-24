@@ -137,7 +137,13 @@ const DashboardDemo = () => {
                   </div>
                 ))}
               </div>
-              <Button variant="outline" className="w-full mt-4">
+              <Button 
+                variant="outline" 
+                className="w-full mt-4"
+                onClick={() => {
+                  alert('View All Reports - This would navigate to the reports page');
+                }}
+              >
                 <BarChart3 className="w-4 h-4 mr-2" />
                 View All Reports
               </Button>
@@ -201,7 +207,13 @@ const DashboardDemo = () => {
                 <p className="text-sm text-white/80">This month: +12.5%</p>
               </div>
               
-              <Button variant="environmental" className="w-full mt-4">
+              <Button 
+                variant="environmental" 
+                className="w-full mt-4"
+                onClick={() => {
+                  alert('Upload New MRV Report - This would open the upload form');
+                }}
+              >
                 Upload New MRV Report
               </Button>
             </CardContent>

@@ -54,11 +54,24 @@ const Navigation = () => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => {
+                // Add authentication logic here
+                alert('Login functionality - connect to authentication system');
+              }}
+            >
               <LogIn className="w-4 h-4 mr-2" />
               Login
             </Button>
-            <Button variant="environmental" size="sm">
+            <Button 
+              variant="environmental" 
+              size="sm"
+              onClick={() => {
+                document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Get Started
             </Button>
           </div>
@@ -94,11 +107,27 @@ const Navigation = () => {
                 );
               })}
               <div className="px-3 py-2 space-y-2">
-                <Button variant="ghost" size="sm" className="w-full justify-start">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    alert('Login functionality - connect to authentication system');
+                    setIsMenuOpen(false);
+                  }}
+                >
                   <LogIn className="w-4 h-4 mr-2" />
                   Login
                 </Button>
-                <Button variant="environmental" size="sm" className="w-full">
+                <Button 
+                  variant="environmental" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => {
+                    document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
+                  }}
+                >
                   Get Started
                 </Button>
               </div>
